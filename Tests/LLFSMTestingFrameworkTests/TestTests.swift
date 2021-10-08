@@ -24,17 +24,17 @@ final class TestTests: XCTestCase {
         let test = Test(rawValue: testData!)
         let expected: Test = .languageTest(name: "testTrueTest", code: "XCTAssertTrue(true)", language: .swift)
         XCTAssertNotNil(test)
-        compareTest(uut: test, expected: expected)
+        TestTests.compareTest(uut: test, expected: expected)
     }
     
     func testCreateValidNestedTest() {
         let expected: Test = .languageTest(name: "testNestedTest", code: "[0, 1, 2].enumerated.forEach {\n    XCTAssertEqual($0.0, $0.1)\n    }", language: .swift)
         let test = Test(rawValue: nestedTest!)
         XCTAssertNotNil(test)
-        compareTest(uut: test, expected: expected)
+        TestTests.compareTest(uut: test, expected: expected)
     }
     
-    private func compareTest(uut: Test?, expected: Test) {
+    static func compareTest(uut: Test?, expected: Test) {
         if uut == nil {
             XCTAssertTrue(false)
             return
