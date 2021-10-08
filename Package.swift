@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,7 +12,9 @@ let package = Package(
             targets: ["LLFSMTestingFramework"]),
     ],
     dependencies: [
-        .package(name: "swiftfsm", url: "ssh://git.mipal.net/Users/Shared/git/swiftfsm.git", .branch("master"))
+        .package(name: "FSM", url: "ssh://git.mipal.net/Users/Shared/git/swiftfsm_FSM.git", .branch("master")),
+        .package(name: "swiftfsm", url: "ssh://git.mipal.net/Users/Shared/git/swiftfsm.git", .branch("master")),
+        
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
@@ -21,9 +23,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "LLFSMTestingFramework",
-            dependencies: ["swiftfsm"]),
+            dependencies: [.product(name: "swiftfsm", package: "FSM"), .product(name: "swiftfsm_binaries", package: "swiftfsm") ]),
         .testTarget(
             name: "LLFSMTestingFrameworkTests",
-            dependencies: ["LLFSMTestingFramework"]),
+            dependencies: ["LLFSMTestingFramework", .product(name: "swiftfsm", package: "FSM"), .product(name: "swiftfsm_binaries", package: "swiftfsm")]),
     ]
 )
