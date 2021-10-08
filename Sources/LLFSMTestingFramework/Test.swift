@@ -27,7 +27,14 @@ enum Test {
                 return nil
             }
             if let language = Language(rawValue: components[0]) {
-                self = .languageTest(name: components[2], code: String(code.value), language: language)
+                var name = components[2]
+                guard let firstChar = name.first else {
+                    return nil
+                }
+                if !name.starts(with: "test") {
+                    name = "test" + firstChar.uppercased() + name.dropFirst()
+                }
+                self = .languageTest(name: name, code: String(code.value), language: language)
                 return
             }
         }
