@@ -1,0 +1,22 @@
+name: Swift CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  exec-ci:
+    runs-on: macos-11
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: swift test --enable-code-coverage
+
+      - name: Coverage report
+        uses: maxep/spm-lcov-action@0.3.1
+        with:
+          output-file: ./coverage/lcov.info
