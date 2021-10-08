@@ -26,7 +26,6 @@ struct TestSuite {
     }
     
     init?(rawValue: String) {
-        print("raw: \(rawValue)")
         let selector = StringSelector()
         guard let subString = selector.findIndexes(for: "TestSuite", in: rawValue) else {
             return nil
@@ -62,7 +61,6 @@ struct TestSuite {
                 currentIndex = testsLastIndex
                 continue
             }
-            print("code: \(rawValue[code.indexes])")
             guard let searchedLastIndex = code.lastIndex else {
                 currentIndex = testsLastIndex
                 continue
@@ -73,12 +71,9 @@ struct TestSuite {
             }
             if metaData[1] == "test" {
                 let newTest = IndexableSubString(parent: rawValue, indexes: testFirstIndex..<codeLastIndex)
-                print(newTest.value)
                 testsGrouped.append(newTest)
             }
             currentIndex = code.endIndex
-            print(currentIndex)
-            print(testsLastIndex)
         } while (currentIndex < testsLastIndex)
         self.tests = testsGrouped.compactMap { Test(rawValue: String($0.value)) }
     }
