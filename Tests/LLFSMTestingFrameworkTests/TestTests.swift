@@ -13,13 +13,23 @@ final class TestTests: XCTestCase {
     
     var testData: String?
     
+    var nestedTest: String?
+    
     override func setUp() {
         testData = "    @swift test trueTest {\n        XCTAssertTrue(true)\n    }"
+        nestedTest = "    @swift test nestedTest {\n        [0, 1, 2].enumerated.forEach { XCTAssertEqual($0.0, $0.1) }\n    }"
     }
     
     func testCreatesValidTest() {
         let test = Test(rawValue: testData!)
         let expected: Test = .languageTest(name: "testTrueTest", code: "XCTAssertTrue(true)", language: .swift)
+        XCTAssertNotNil(test)
+        compareTest(uut: test, expected: expected)
+    }
+    
+    func testCreateValidNestedTest() {
+        let expected: Test = .languageTest(name: "testNestedTest", code: "[0, 1, 2].enumerated.forEach { XCTAssertEqual($0.0, $0.1) }", language: .swift)
+        let test = Test(rawValue: nestedTest!)
         XCTAssertNotNil(test)
         compareTest(uut: test, expected: expected)
     }
