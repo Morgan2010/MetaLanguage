@@ -48,24 +48,20 @@ struct TestSuite {
         self.name = components[0]
         var currentIndex = lastIndex
         var testsGrouped: [IndexableSubString] = []
-        repeat {
-            guard let groupMetaData = selector.findSubString(after: currentIndex, with: "@", and: "{", in: rawValue) else {
-                currentIndex = testsLastIndex
-                continue
-            }
-            let metaData = groupMetaData.value.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines)
+        while currentIndex < testsLastIndex {
+            let groupMetaData = selector.findSubString(after: currentIndex, with: "@", and: "{", in: rawValue)
             guard
-                let codeFirstIndex = groupMetaData.lastIndex,
-                let code = selector.findSubString(after: codeFirstIndex, with: "{", and: "}", in: rawValue)
+                let metaData = groupMetaData?.value.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines),
+                let codeFirstIndex = groupMetaData?.lastIndex,
+                let code = selector.findSubString(after: codeFirstIndex, with: "{", and: "}", in: rawValue),
+                let searchedLastIndex = code.lastIndex,
+                let codeLastIndex = code.endIndex.increment(in: rawValue),
+                let testFirstIndex = groupMetaData?.startIndex.decrement(in: rawValue)
             else {
                 currentIndex = testsLastIndex
                 continue
             }
-            guard let searchedLastIndex = code.lastIndex else {
-                currentIndex = testsLastIndex
-                continue
-            }
-            guard metaData.count == 3, let codeLastIndex = code.endIndex.increment(in: rawValue), let testFirstIndex = groupMetaData.startIndex.decrement(in: rawValue) else {
+            guard metaData.count == 3 else {
                 currentIndex = searchedLastIndex
                 continue
             }
@@ -74,7 +70,7 @@ struct TestSuite {
                 testsGrouped.append(newTest)
             }
             currentIndex = code.endIndex
-        } while (currentIndex < testsLastIndex)
+        }
         self.tests = testsGrouped.compactMap { Test(rawValue: String($0.value)) }
     }
     
