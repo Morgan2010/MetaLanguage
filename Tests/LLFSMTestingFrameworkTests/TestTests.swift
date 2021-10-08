@@ -17,7 +17,7 @@ final class TestTests: XCTestCase {
     
     override func setUp() {
         testData = "    @swift test trueTest {\n        XCTAssertTrue(true)\n    }"
-        nestedTest = "    @swift test nestedTest {\n        [0, 1, 2].enumerated.forEach { XCTAssertEqual($0.0, $0.1) }\n    }"
+        nestedTest = "    @swift test nestedTest {\n        [0, 1, 2].enumerated.forEach {\n        XCTAssertEqual($0.0, $0.1)\n    }\n    }"
     }
     
     func testCreatesValidTest() {
@@ -28,7 +28,7 @@ final class TestTests: XCTestCase {
     }
     
     func testCreateValidNestedTest() {
-        let expected: Test = .languageTest(name: "testNestedTest", code: "[0, 1, 2].enumerated.forEach { XCTAssertEqual($0.0, $0.1) }", language: .swift)
+        let expected: Test = .languageTest(name: "testNestedTest", code: "[0, 1, 2].enumerated.forEach {\n    XCTAssertEqual($0.0, $0.1)\n    }", language: .swift)
         let test = Test(rawValue: nestedTest!)
         XCTAssertNotNil(test)
         compareTest(uut: test, expected: expected)
