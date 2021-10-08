@@ -7,7 +7,7 @@
 
 import Foundation
 import swiftfsm_binaries
-import swiftfsm
+//import swiftfsm
 import XCTest
 @testable import LLFSMTestingFramework
 
