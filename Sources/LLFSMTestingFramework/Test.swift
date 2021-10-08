@@ -6,9 +6,32 @@
 //
 
 import Foundation
+import SwiftParsing
 
 enum Test {
     
     case languageTest(name: String, code: String, language: Language)
+    
+    init?(rawValue: String) {
+        let selector = StringSelector()
+        guard
+            let metaData = selector.findSubString(with: "@", and: "{", in: rawValue),
+            let codeFirstIndex = metaData.lastIndex,
+            let code = selector.findSubString(between: "{", and: "}", in: String(rawValue[codeFirstIndex..<rawValue.countIndex]))
+        else {
+            return nil
+        }
+        let components = metaData.value.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines)
+        if components.count == 3 {
+            if components[1] != "test" {
+                return nil
+            }
+            if let language = Language(rawValue: components[0]) {
+                self = .languageTest(name: components[2], code: String(code.value), language: language)
+                return
+            }
+        }
+        return nil
+    }
     
 }
