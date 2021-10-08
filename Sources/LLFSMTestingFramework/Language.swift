@@ -11,4 +11,12 @@ enum Language {
     
     case swift
     
+    init?(rawValue: String) {
+        if rawValue == "swift" {
+            self = .swift
+            return
+        }
+        return nil
+    }
+    
 }
