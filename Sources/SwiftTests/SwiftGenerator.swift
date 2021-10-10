@@ -58,7 +58,7 @@ struct SwiftGenerator {
         case .languageCode(let code, let language):
             switch language {
             case .swift:
-                return "override func setup() " + mutator.createBlock(for: code)
+                return "override func setUp() " + mutator.createBlock(for: code)
             default:
                 return nil
             }

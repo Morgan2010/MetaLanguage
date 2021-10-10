@@ -1,5 +1,9 @@
 TestSuite ExampleTest {
 
+    @swift setup {
+        print("Hello World!")
+    }
+
     @swift test trueTest {
         XCTAssertTrue(true)
     }

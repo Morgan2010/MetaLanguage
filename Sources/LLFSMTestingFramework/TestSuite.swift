@@ -79,7 +79,7 @@ public struct TestSuite {
                     guard let language = Language(rawValue: metaData[0].trimmingCharacters(in: .whitespacesAndNewlines)) else {
                         continue
                     }
-                    setup = Code.languageCode(code: String(code.value), language: language)
+                    setup = Code(code: String(code.value), language: language)
                 }
             }
             currentIndex = searchedLastIndex
