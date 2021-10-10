@@ -18,7 +18,7 @@ public struct TestSuite {
     
     public var tests: [Test]
     
-    init(name: String, tests: [Test], variables: [Variable]? = nil, setup: Code? = nil) {
+    public init(name: String, tests: [Test], variables: [Variable]? = nil, setup: Code? = nil) {
         self.name = name
         self.tests = tests
         self.setup = setup

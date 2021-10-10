@@ -36,7 +36,7 @@ struct SwiftGenerator {
         let testsCode = tests.reduce("") { mutator.joinWithNewLines(str1: $0, str2: $1, amount: 2) }
         let header = "import Foundation\nimport XCTest"
         return header + "\n\n" + "final class \(suite.name): XCTestCase " + mutator.createBlock(
-            for: variableCode + "\n\n" + setup + "\n\n" + testsCode
+            for: "\n" + variableCode + "\n\n" + setup + "\n\n" + testsCode
         )
     }
     
