@@ -61,13 +61,13 @@ public struct TestSuite {
                 let codeLastIndex = code.endIndex.increment(in: rawValue),
                 let groupMetaData = groupMetaData,
                 let testFirstIndex = groupMetaData.startIndex.decrement(in: rawValue),
-                let groupLastIndex = groupMetaData.lastIndex
+                let groupLastIndex = groupMetaData.lastIndex,
+                metaData.count > 0
             else {
                 currentIndex = testsLastIndex
                 continue
             }
-            
-            if metaData.count > 2 && metaData[1] == "variable" {
+            if (metaData.count > 2 && metaData[1] == "variable") || metaData[0] == "variable" {
                 guard let nextKeyword = selector.findSubString(after: codeFirstIndex, with: ["@"], and: ["{", "@"], in: rawValue) else {
                     if let variable = Variable(rawValue: String(groupMetaData.value)) {
                         variables.append(variable)
@@ -90,28 +90,31 @@ public struct TestSuite {
                 currentIndex = code.endIndex
                 continue
             }
-            if metaData.count == 3 {
-                if metaData[1] == "test" {
-                    let newTest = IndexableSubString(parent: rawValue, indexes: testFirstIndex..<codeLastIndex)
-                    testsGrouped.append(newTest)
-                }
+            if (metaData.count == 3 && metaData[1] == "test") || metaData[0] == "test" {
+                let newTest = IndexableSubString(parent: rawValue, indexes: testFirstIndex..<codeLastIndex)
+                testsGrouped.append(newTest)
                 currentIndex = code.endIndex
                 continue
             }
-            if metaData.count == 2 {
-                if metaData[1] == "setup" {
-                    currentIndex = code.endIndex
-                    if setup != nil {
-                        continue
-                    }
-                    guard let language = Language(rawValue: metaData[0].trimmingCharacters(in: .whitespacesAndNewlines)) else {
-                        continue
-                    }
-                    setup = Code(code: String(code.value), language: language)
+            if metaData.count == 2 && metaData[1] == "setup" {
+                currentIndex = code.endIndex
+                if setup != nil {
                     continue
                 }
+                guard let language = Language(rawValue: metaData[0].trimmingCharacters(in: .whitespacesAndNewlines)) else {
+                    continue
+                }
+                setup = Code(code: String(code.value), language: language)
+                continue
             }
-            
+            if metaData[0] == "setup" {
+                currentIndex = code.endIndex
+                if setup != nil {
+                    continue
+                }
+                setup = Code(rawValue: String(code.value))
+                continue
+            }
             currentIndex = searchedLastIndex
         }
         self.tests = testsGrouped.compactMap { Test(rawValue: String($0.value)) }

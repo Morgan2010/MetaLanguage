@@ -18,4 +18,9 @@ public enum Code {
         self = .languageCode(code: sanitisedCode, language: language)
     }
     
+    public init?(rawValue: String) {
+        //Used for meta language
+        return nil
+    }
+    
 }
