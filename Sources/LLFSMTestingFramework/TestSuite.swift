@@ -48,6 +48,7 @@ public struct TestSuite {
         self.name = components[0]
         var currentIndex = lastIndex
         var testsGrouped: [IndexableSubString] = []
+        var setup: Code? = nil
         while currentIndex < testsLastIndex {
             let groupMetaData = selector.findSubString(after: currentIndex, with: "@", and: "{", in: rawValue)
             guard
@@ -61,17 +62,30 @@ public struct TestSuite {
                 currentIndex = testsLastIndex
                 continue
             }
-            guard metaData.count == 3 else {
-                currentIndex = searchedLastIndex
+            if metaData.count == 3 {
+                if metaData[1] == "test" {
+                    let newTest = IndexableSubString(parent: rawValue, indexes: testFirstIndex..<codeLastIndex)
+                    testsGrouped.append(newTest)
+                }
+                currentIndex = code.endIndex
                 continue
             }
-            if metaData[1] == "test" {
-                let newTest = IndexableSubString(parent: rawValue, indexes: testFirstIndex..<codeLastIndex)
-                testsGrouped.append(newTest)
+            if metaData.count == 2 {
+                if metaData[1] == "setup" {
+                    currentIndex = code.endIndex
+                    if setup != nil {
+                        continue
+                    }
+                    guard let language = Language(rawValue: metaData[0].trimmingCharacters(in: .whitespacesAndNewlines)) else {
+                        continue
+                    }
+                    setup = Code.languageCode(code: String(code.value), language: language)
+                }
             }
-            currentIndex = code.endIndex
+            currentIndex = searchedLastIndex
         }
         self.tests = testsGrouped.compactMap { Test(rawValue: String($0.value)) }
+        self.setup = setup
     }
     
 }
