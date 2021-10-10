@@ -49,17 +49,45 @@ public struct TestSuite {
         var currentIndex = lastIndex
         var testsGrouped: [IndexableSubString] = []
         var setup: Code? = nil
+        var variables: [Variable] = []
+        let mutator = StringMutator()
         while currentIndex < testsLastIndex {
-            let groupMetaData = selector.findSubString(after: currentIndex, with: ["@"], and: ["{", "@"], in: rawValue)
+            let groupMetaData = selector.findSubString(after: currentIndex, with: ["@"], and: ["{", "@", "}"], in: rawValue)
             guard
                 let metaData = groupMetaData?.value.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines),
                 let codeFirstIndex = groupMetaData?.lastIndex,
                 let code = selector.findSubString(after: codeFirstIndex, with: "{", and: "}", in: rawValue),
                 let searchedLastIndex = code.lastIndex,
                 let codeLastIndex = code.endIndex.increment(in: rawValue),
-                let testFirstIndex = groupMetaData?.startIndex.decrement(in: rawValue)
+                let groupMetaData = groupMetaData,
+                let testFirstIndex = groupMetaData.startIndex.decrement(in: rawValue),
+                let groupLastIndex = groupMetaData.lastIndex
             else {
                 currentIndex = testsLastIndex
+                continue
+            }
+            
+            if metaData.count > 2 && metaData[1] == "variable" {
+                guard let nextKeyword = selector.findSubString(after: codeFirstIndex, with: ["@"], and: ["{", "@"], in: rawValue) else {
+                    if let variable = Variable(rawValue: String(groupMetaData.value)) {
+                        variables.append(variable)
+                    }
+                    currentIndex = groupLastIndex
+                    continue
+                }
+                if nextKeyword.indexes.lowerBound < code.indexes.lowerBound {
+                    if let variable = Variable(rawValue: String(groupMetaData.value)) {
+                        variables.append(variable)
+                    }
+                    
+                    currentIndex = groupLastIndex
+                    continue
+                }
+                if let variable = Variable(rawValue: String(groupMetaData.value) + "{\n" + mutator.indentLines(data: String(code.value)) + "\n}") {
+                    variables.append(variable)
+                }
+                
+                currentIndex = code.endIndex
                 continue
             }
             if metaData.count == 3 {
@@ -82,14 +110,13 @@ public struct TestSuite {
                     setup = Code(code: String(code.value), language: language)
                     continue
                 }
-//                if metaData[2] == "variable" {
-//                    guard let nextKeyword = selector.findSubString(after: currentIndex, with: "@", and: "{", in: rawValue)
-//                }
             }
+            
             currentIndex = searchedLastIndex
         }
         self.tests = testsGrouped.compactMap { Test(rawValue: String($0.value)) }
         self.setup = setup
+        self.variables = variables.isEmpty ? nil : variables
     }
     
 }

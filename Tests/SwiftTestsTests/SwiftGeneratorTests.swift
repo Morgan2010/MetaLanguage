@@ -29,8 +29,8 @@ final class SwiftGeneratorTests: XCTestCase {
                 .languageTest(name: "testArray", code: "let arr = [0, 1, 2]\narr.enumerated().forEach{\n    XCTAssertEqual($0.0, $0.1)\n}", language: .swift)
             ],
             variables: [
-                .languageVariable(name: "x", declaration: "var x: Int?", language: .swift),
-                .languageVariable(name: "y", declaration: "var y: Int?", language: .swift)
+                .languageVariable(declaration: "var x: Int?", language: .swift),
+                .languageVariable(declaration: "var y: Int?", language: .swift)
             ],
             setup: .languageCode(code: "x = 5\ny = 6", language: .swift)
         )

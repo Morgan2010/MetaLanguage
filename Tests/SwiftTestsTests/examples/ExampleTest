@@ -1,7 +1,10 @@
 TestSuite ExampleTest {
 
+    @swift variable var x: Int?
+
     @swift setup {
         print("Hello World!")
+        x = 5
     }
 
     @swift test trueTest {

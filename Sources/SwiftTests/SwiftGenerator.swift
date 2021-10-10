@@ -69,7 +69,7 @@ struct SwiftGenerator {
     
     private func toString(variable: Variable) -> String? {
         switch variable {
-        case .languageVariable(_, let declaration, let language):
+        case .languageVariable(let declaration, let language):
             switch language {
             case .swift:
                 return declaration

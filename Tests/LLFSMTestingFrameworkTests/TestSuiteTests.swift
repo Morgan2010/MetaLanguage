@@ -14,7 +14,9 @@ final class TestSuiteTests: XCTestCase {
     var rawData: String?
     
     override func setUp() {
-        rawData = "TestSuite ExampleTests {\n    @swift setup {\n    print(\"Hello World!\")\n}\n\n    @swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n    @swift test falseTest {\n        XCTAssertTrue(false)\n    }\n}"
+        rawData = "TestSuite ExampleTests {\n    @swift variable var x: Int?\n\n    @swift setup {\n    print(\"Hello World!\")"
+            + "\n}\n\n    @swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
+            + "    @swift test falseTest {\n        XCTAssertTrue(false)\n    }\n}"
     }
     
     func testIsValid() {
@@ -24,6 +26,7 @@ final class TestSuiteTests: XCTestCase {
                 .languageTest(name: "testTrueTest", code: "XCTAssertTrue(true)", language: .swift),
                 .languageTest(name: "testFalseTest", code: "XCTAssertTrue(false)", language: .swift)
             ],
+            variables: [.languageVariable(declaration: "var x: Int?", language: .swift)],
             setup: .languageCode(code: "print(\"Hello World!\")", language: .swift)
         )
         let suite = TestSuite(rawValue: rawData!)
@@ -37,7 +40,30 @@ final class TestSuiteTests: XCTestCase {
         uut?.tests.indices.forEach {
             TestTests.compareTest(uut: uut?.tests[$0], expected: expected.tests[$0])
         }
-        compareCode(uut: uut?.setup, expected: expected.setup!)
+        if expected.setup != nil {
+            compareCode(uut: uut?.setup, expected: expected.setup!)
+        }
+        XCTAssertEqual(uut?.variables?.indices, expected.variables?.indices)
+        if expected.variables != nil {
+            XCTAssertNotNil(uut?.variables)
+            let vars = uut!.variables!
+            let expectedVars = expected.variables!
+            vars.indices.forEach {
+                switch vars[$0] {
+                case .languageVariable(let declaration, let language):
+                    switch expectedVars[$0] {
+                    case .languageVariable(let declaration2, let language2):
+                        XCTAssertEqual(declaration, declaration2)
+                        XCTAssertEqual(language, language2)
+                    default:
+                        XCTAssertTrue(false)
+                    }
+                default:
+                    XCTAssertTrue(false)
+                }
+            }
+        }
+        
     }
     
     private func compareCode(uut: Code?, expected: Code) {
