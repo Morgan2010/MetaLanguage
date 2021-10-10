@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Code {
+public enum Code {
     
     case languageCode(code: String, language: Language)
     

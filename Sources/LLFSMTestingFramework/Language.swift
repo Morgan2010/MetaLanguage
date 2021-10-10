@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum Language {
+public enum Language {
     
     case swift
     
-    init?(rawValue: String) {
+    public init?(rawValue: String) {
         if rawValue == "swift" {
             self = .swift
             return

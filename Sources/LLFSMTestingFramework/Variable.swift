@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Variable {
+public enum Variable {
     
     case languageVariable(name: String, declaration: String, language: Language)
     

@@ -8,15 +8,15 @@
 import Foundation
 import SwiftParsing
 
-struct TestSuite {
+public struct TestSuite {
     
-    var name: String
+    public var name: String
     
-    var variables: [Variable]?
+    public var variables: [Variable]?
     
-    var setup: Code?
+    public var setup: Code?
     
-    var tests: [Test]
+    public var tests: [Test]
     
     init(name: String, tests: [Test], variables: [Variable]? = nil, setup: Code? = nil) {
         self.name = name
@@ -25,7 +25,7 @@ struct TestSuite {
         self.variables = variables
     }
     
-    init?(rawValue: String) {
+    public init?(rawValue: String) {
         let selector = StringSelector()
         guard let subString = selector.findIndexes(for: "TestSuite", in: rawValue) else {
             return nil

@@ -8,11 +8,11 @@
 import Foundation
 import SwiftParsing
 
-enum Test {
+public enum Test {
     
     case languageTest(name: String, code: String, language: Language)
     
-    init?(rawValue: String) {
+    public init?(rawValue: String) {
         let selector = StringSelector()
         guard
             let metaData = selector.findSubString(with: "@", and: "{", in: rawValue),
