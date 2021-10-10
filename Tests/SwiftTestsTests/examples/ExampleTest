@@ -7,5 +7,12 @@ TestSuite ExampleTest {
     @swift test falseTest {
         XCTAssertFalse(false)
     }
+    
+    @swift test arrayTest {
+        let arr = [0, 1, 2]
+        arr.enumerated().forEach {
+            XCTAssertEqual($0.0, $0.1)
+        }
+    }
 
 }
