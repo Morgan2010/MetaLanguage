@@ -79,14 +79,14 @@ public struct TestSuite {
                     if let variable = Variable(rawValue: String(groupMetaData.value)) {
                         variables.append(variable)
                     }
-                    
                     currentIndex = groupLastIndex
                     continue
                 }
-                if let variable = Variable(rawValue: String(groupMetaData.value) + "{\n" + mutator.indentLines(data: String(code.value)) + "\n}") {
+                if let variable = Variable(rawValue: String(groupMetaData.value)
+                   + mutator.createBlock(for: mutator.removeRedundentIndentation(data: String(code.value).trimmingCharacters(in: .newlines))))
+                {
                     variables.append(variable)
                 }
-                
                 currentIndex = code.endIndex
                 continue
             }

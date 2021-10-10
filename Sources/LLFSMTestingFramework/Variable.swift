@@ -26,8 +26,9 @@ public enum Variable {
             }
             let declarationFirstIndex = variableSubString.endIndex
             let mutator = StringMutator()
-            let newData = String(rawValue[firstIndex..<startSubString.indexes.lowerBound]
-                 + rawValue[declarationFirstIndex..<rawValue.countIndex].trimmingCharacters(in: .whitespacesAndNewlines))
+            let indentation = rawValue[firstIndex..<startSubString.indexes.lowerBound]
+            let code = rawValue[declarationFirstIndex..<rawValue.countIndex].trimmingCharacters(in: .whitespacesAndNewlines)
+            let newData = String(indentation + code)
             let sanitisedDeclaration = mutator.removeRedundentIndentation(data: newData.trimmingCharacters(in: .newlines))
             self = .languageVariable(declaration: sanitisedDeclaration, language: language)
             return
