@@ -16,13 +16,16 @@ public struct TestSuite {
     
     public var setup: Code?
     
+    public var tearDown: Code?
+    
     public var tests: [Test]
     
-    public init(name: String, tests: [Test], variables: [Variable]? = nil, setup: Code? = nil) {
+    public init(name: String, tests: [Test], variables: [Variable]? = nil, setup: Code? = nil, tearDown: Code? = nil) {
         self.name = name
         self.tests = tests
         self.setup = setup
         self.variables = variables
+        self.tearDown = tearDown
     }
     
     public init?(rawValue: String) {
@@ -49,6 +52,7 @@ public struct TestSuite {
         var currentIndex = lastIndex
         var testsGrouped: [IndexableSubString] = []
         var setup: Code? = nil
+        var tearDown: Code? = nil
         var variables: [Variable] = []
         let mutator = StringMutator()
         while currentIndex < testsLastIndex {
@@ -107,6 +111,17 @@ public struct TestSuite {
                 setup = Code(code: String(code.value), language: language)
                 continue
             }
+            if metaData.count == 2 && metaData[1] == "teardown" {
+                currentIndex = code.endIndex
+                if tearDown != nil {
+                    continue
+                }
+                guard let language = Language(rawValue: metaData[0].trimmingCharacters(in: .whitespacesAndNewlines)) else {
+                    continue
+                }
+                tearDown = Code(code: String(code.value), language: language)
+                continue
+            }
             if metaData[0] == "setup" {
                 currentIndex = code.endIndex
                 if setup != nil {
@@ -115,10 +130,19 @@ public struct TestSuite {
                 setup = Code(rawValue: String(code.value))
                 continue
             }
+            if metaData[0] == "teardown" {
+                currentIndex = code.endIndex
+                if tearDown != nil {
+                    continue
+                }
+                tearDown = Code(rawValue: String(code.value))
+                continue
+            }
             currentIndex = searchedLastIndex
         }
         self.tests = testsGrouped.compactMap { Test(rawValue: String($0.value)) }
         self.setup = setup
+        self.tearDown = tearDown
         self.variables = variables.isEmpty ? nil : variables
     }
     

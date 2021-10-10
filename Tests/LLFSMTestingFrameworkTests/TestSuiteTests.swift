@@ -15,7 +15,8 @@ final class TestSuiteTests: XCTestCase {
     
     override func setUp() {
         rawData = "TestSuite ExampleTests {\n    @swift variable var x: Int?\n\n    @swift setup {\n    print(\"Hello World!\")"
-            + "\n}\n\n    @swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
+            + "\n}\n\n    @swift teardown {\n        print(\"Tear Down!\")\n    }\n\n    "
+            + "@swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
             + "    @swift test falseTest {\n        XCTAssertTrue(false)\n    }\n}"
     }
     
@@ -27,7 +28,8 @@ final class TestSuiteTests: XCTestCase {
                 .languageTest(name: "testFalseTest", code: "XCTAssertTrue(false)", language: .swift)
             ],
             variables: [.languageVariable(declaration: "var x: Int?", language: .swift)],
-            setup: .languageCode(code: "print(\"Hello World!\")", language: .swift)
+            setup: .languageCode(code: "print(\"Hello World!\")", language: .swift),
+            tearDown: .languageCode(code: "print(\"Tear Down!\")", language: .swift)
         )
         let suite = TestSuite(rawValue: rawData!)
         XCTAssertNotNil(suite)
@@ -42,6 +44,9 @@ final class TestSuiteTests: XCTestCase {
         }
         if expected.setup != nil {
             compareCode(uut: uut?.setup, expected: expected.setup!)
+        }
+        if expected.tearDown != nil {
+            compareCode(uut: uut?.tearDown, expected: expected.tearDown!)
         }
         XCTAssertEqual(uut?.variables?.indices, expected.variables?.indices)
         if expected.variables != nil {

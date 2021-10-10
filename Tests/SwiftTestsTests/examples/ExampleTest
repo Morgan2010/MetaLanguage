@@ -10,6 +10,10 @@ TestSuite ExampleTest {
         print("Hello World!")
         x = 5
     }
+    
+    @swift teardown {
+        print("Tear Down!")
+    }
 
     @swift test trueTest {
         XCTAssertTrue(true)

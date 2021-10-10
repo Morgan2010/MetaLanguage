@@ -32,7 +32,8 @@ final class SwiftGeneratorTests: XCTestCase {
                 .languageVariable(declaration: "var x: Int?", language: .swift),
                 .languageVariable(declaration: "var y: Int?", language: .swift)
             ],
-            setup: .languageCode(code: "x = 5\ny = 6", language: .swift)
+            setup: .languageCode(code: "x = 5\ny = 6", language: .swift),
+            tearDown: .languageCode(code: "print(\"Tear Down!\")", language: .swift)
         )
         generator = SwiftGenerator()
     }
