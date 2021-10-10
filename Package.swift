@@ -31,5 +31,8 @@ let package = Package(
         .testTarget(
             name: "LLFSMTestingFrameworkTests",
             dependencies: ["LLFSMTestingFramework", .product(name: "swiftfsm_binaries", package: "swiftfsm")]),
+        .testTarget(
+            name: "SwiftTestsTests",
+            dependencies: ["SwiftTests"])
     ]
 )
