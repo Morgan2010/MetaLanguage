@@ -35,20 +35,7 @@ struct SwiftGenerator {
         let variableCode = variables.reduce("") { mutator.joinWithNewLines(str1: $0, str2: $1, amount: 2) }
         let testsCode = tests.reduce("") { mutator.joinWithNewLines(str1: $0, str2: $1, amount: 2) }
         let header = "import Foundation\nimport XCTest"
-        let blockCode: String
-        if variableCode == "" {
-            if setup == "" {
-                blockCode = "\n" + testsCode + "\n"
-            } else {
-                blockCode = "\n" + setup + "\n\n" + testsCode + "\n"
-            }
-        } else {
-            if setup == "" {
-                blockCode = "\n" + variableCode + "\n\n" + testsCode + "\n"
-            } else {
-                blockCode = "\n" + variableCode + "\n\n" + setup + "\n\n" + testsCode + "\n"
-            }
-        }
+        let blockCode = "\n" + mutator.joinWithNewLines(str1: mutator.joinWithNewLines(str1: variableCode, str2: setup, amount: 2), str2: testsCode, amount: 2) + "\n"
         return header + "\n\n" + "final class \(suite.name): XCTestCase " + mutator.createBlock(for: blockCode)
     }
     
