@@ -50,7 +50,7 @@ public struct TestSuite {
         var testsGrouped: [IndexableSubString] = []
         var setup: Code? = nil
         while currentIndex < testsLastIndex {
-            let groupMetaData = selector.findSubString(after: currentIndex, with: "@", and: "{", in: rawValue)
+            let groupMetaData = selector.findSubString(after: currentIndex, with: ["@"], and: ["{", "@"], in: rawValue)
             guard
                 let metaData = groupMetaData?.value.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines),
                 let codeFirstIndex = groupMetaData?.lastIndex,
@@ -80,7 +80,11 @@ public struct TestSuite {
                         continue
                     }
                     setup = Code(code: String(code.value), language: language)
+                    continue
                 }
+//                if metaData[2] == "variable" {
+//                    guard let nextKeyword = selector.findSubString(after: currentIndex, with: "@", and: "{", in: rawValue)
+//                }
             }
             currentIndex = searchedLastIndex
         }
