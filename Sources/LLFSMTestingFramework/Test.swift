@@ -34,7 +34,9 @@ public enum Test {
                 if !name.starts(with: "test") {
                     name = "test" + firstChar.uppercased() + name.dropFirst()
                 }
-                self = .languageTest(name: name, code: String(code.value).trimmingCharacters(in: .newlines), language: language)
+                let mutator = StringMutator()
+                let sanitisedCode = mutator.removeRedundentIndentation(data: String(code.value).trimmingCharacters(in: .newlines))
+                self = .languageTest(name: name, code: sanitisedCode, language: language)
                 return
             }
         }
