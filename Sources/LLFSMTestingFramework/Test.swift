@@ -34,7 +34,7 @@ public enum Test {
                 if !name.starts(with: "test") {
                     name = "test" + firstChar.uppercased() + name.dropFirst()
                 }
-                self = .languageTest(name: name, code: String(code.value), language: language)
+                self = .languageTest(name: name, code: String(code.value).trimmingCharacters(in: .newlines), language: language)
                 return
             }
         }

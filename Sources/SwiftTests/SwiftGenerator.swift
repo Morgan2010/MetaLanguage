@@ -26,18 +26,30 @@ struct SwiftGenerator {
     }
     
     public func generate(suite: TestSuite) -> String? {
-        let variables = suite.variables?.compactMap(toString).map { mutator.indentLines(data: $0) } ?? []
-        let setup = nil == suite.setup ? "" : mutator.indentLines(data: toString(setup: suite.setup!) ?? "")
-        let tests = suite.tests.compactMap(toString).map { mutator.indentLines(data: $0) }
+        let variables = suite.variables?.compactMap(toString) ?? []
+        let setup = nil == suite.setup ? "" : (toString(setup: suite.setup!) ?? "")
+        let tests = suite.tests.compactMap(toString)
         guard tests.count > 0 else {
             return nil
         }
         let variableCode = variables.reduce("") { mutator.joinWithNewLines(str1: $0, str2: $1, amount: 2) }
         let testsCode = tests.reduce("") { mutator.joinWithNewLines(str1: $0, str2: $1, amount: 2) }
         let header = "import Foundation\nimport XCTest"
-        return header + "\n\n" + "final class \(suite.name): XCTestCase " + mutator.createBlock(
-            for: "\n" + variableCode + "\n\n" + setup + "\n\n" + testsCode + "\n"
-        )
+        let blockCode: String
+        if variableCode == "" {
+            if setup == "" {
+                blockCode = "\n" + testsCode + "\n"
+            } else {
+                blockCode = "\n" + setup + "\n\n" + testsCode + "\n"
+            }
+        } else {
+            if setup == "" {
+                blockCode = "\n" + variableCode + "\n\n" + testsCode + "\n"
+            } else {
+                blockCode = "\n" + variableCode + "\n\n" + setup + "\n\n" + testsCode + "\n"
+            }
+        }
+        return header + "\n\n" + "final class \(suite.name): XCTestCase " + mutator.createBlock(for: blockCode)
     }
     
     private func toString(test: Test) -> String? {
