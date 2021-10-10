@@ -1,0 +1,11 @@
+TestSuite ExampleTest {
+
+    @swift test trueTest {
+        XCTAssertTrue(true)
+    }
+    
+    @swift test falseTest {
+        XCTAssertFalse(false)
+    }
+
+}

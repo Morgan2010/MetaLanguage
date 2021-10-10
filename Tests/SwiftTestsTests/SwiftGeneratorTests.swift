@@ -18,6 +18,8 @@ final class SwiftGeneratorTests: XCTestCase {
     
     var expected: String?
     
+    private let packageRootPath = URL(fileURLWithPath: #file).pathComponents.prefix(while: { $0 != "Tests" }).joined(separator: "/").dropFirst()
+    
     override func setUp() {
         suite = TestSuite(
             name: "ExampleSuite",
@@ -38,6 +40,19 @@ final class SwiftGeneratorTests: XCTestCase {
         let result = generator?.generate(suite: suite!)
         XCTAssertNotNil(result)
         print(result!)
+    }
+    
+    func testExampleTest() {
+        guard
+            let data = try? String(contentsOf: URL(fileURLWithPath: packageRootPath + "/Tests/SwiftTestsTests/examples/ExampleTest")),
+            let suite = TestSuite(rawValue: data),
+            let wrapper = generator?.generateWrapper(suite: suite),
+            let _ = try? wrapper.write(to: URL(fileURLWithPath: packageRootPath + "/Tests/SwiftTestsTests/examples/ExampleTest.swift"), options: .atomic, originalContentsURL: nil)
+        else {
+            XCTAssertTrue(false)
+            return
+        }
+        XCTAssertTrue(true)
     }
     
 }
