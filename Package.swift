@@ -12,9 +12,8 @@ let package = Package(
             targets: ["LLFSMTestingFramework"]),
     ],
     dependencies: [
-        .package(name: "FSM", url: "ssh://git.mipal.net/Users/Shared/git/swiftfsm_FSM.git", .branch("master")),
-        .package(name: "swiftfsm", url: "ssh://git.mipal.net/Users/Shared/git/swiftfsm.git", .branch("master")),
-        .package(name: "SwiftParsing", url: "https://github.com/Morgan2010/SwiftParsing.git", .branch("main"))
+        .package(name: "SwiftParsing", url: "https://github.com/Morgan2010/SwiftParsing.git", .branch("main")),
+        .package(url: "file:///Users/morgan/src/LLFSMTestingFramework/Tests/machines/SwiftPingPong.machine/Darwin-x86_64/SwiftPingPongMachine", .branch("master"))
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -24,13 +23,16 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "LLFSMTestingFramework",
-            dependencies: ["SwiftParsing", .product(name: "swiftfsm_binaries", package: "swiftfsm") ]),
+            dependencies: ["SwiftParsing" ]),
         .target(
             name: "SwiftTests",
             dependencies: ["SwiftParsing", .target(name: "LLFSMTestingFramework")]),
         .testTarget(
             name: "LLFSMTestingFrameworkTests",
-            dependencies: ["LLFSMTestingFramework", .product(name: "swiftfsm_binaries", package: "swiftfsm")]),
+            dependencies: ["LLFSMTestingFramework", "SwiftPingPongMachine"],
+            swiftSettings: [.unsafeFlags(["-I/usr/local/include/swiftfsm"])],
+            linkerSettings: [.unsafeFlags(["-L/usr/local/lib", "-lFSM", "-R/usr/local/lib"])]
+        ),
         .testTarget(
             name: "SwiftTestsTests",
             dependencies: ["LLFSMTestingFramework", "SwiftTests"])
