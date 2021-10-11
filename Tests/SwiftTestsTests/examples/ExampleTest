@@ -29,5 +29,9 @@ TestSuite ExampleTest {
             XCTAssertEqual($0.0, $0.1)
         }
     }
+    
+    @swift test xEqual5 {
+        XCTAssertEqual(x, five)
+    }
 
 }
