@@ -37,3 +37,5 @@ public enum Variable {
     }
     
 }
+
+extension Variable: Codable {}

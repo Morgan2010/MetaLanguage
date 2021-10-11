@@ -41,3 +41,5 @@ public enum Test {
     }
     
 }
+
+extension Test: Codable {}

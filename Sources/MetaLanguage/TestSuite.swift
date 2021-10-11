@@ -147,3 +147,5 @@ public struct TestSuite {
     }
     
 }
+
+extension TestSuite: Codable {}

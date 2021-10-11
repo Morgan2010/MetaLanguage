@@ -20,3 +20,5 @@ public enum Language {
     }
     
 }
+
+extension Language: Codable {}

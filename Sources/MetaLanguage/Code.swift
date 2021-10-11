@@ -24,3 +24,5 @@ public enum Code {
     }
     
 }
+
+extension Code: Codable {}
