@@ -24,8 +24,8 @@ final class TestSuiteTests: XCTestCase {
         let expected = TestSuite(
             name: "ExampleTests",
             tests: [
-                .languageTest(name: "testTrueTest", code: "XCTAssertTrue(true)", language: .swift),
-                .languageTest(name: "testFalseTest", code: "XCTAssertTrue(false)", language: .swift)
+                .languageTest(name: "test_trueTest", code: "XCTAssertTrue(true)", language: .swift),
+                .languageTest(name: "test_falseTest", code: "XCTAssertTrue(false)", language: .swift)
             ],
             variables: [.languageVariable(declaration: "var x: Int?", language: .swift)],
             setup: .languageCode(code: "print(\"Hello World!\")", language: .swift),

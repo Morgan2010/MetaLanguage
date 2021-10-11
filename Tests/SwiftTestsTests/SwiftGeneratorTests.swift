@@ -24,9 +24,9 @@ final class SwiftGeneratorTests: XCTestCase {
         suite = TestSuite(
             name: "ExampleSuite",
             tests: [
-                .languageTest(name: "testCheckX", code: "XCTAssertEqual(x, 5)", language: .swift),
-                .languageTest(name: "testCheckY", code: "XCTAssertEqual(y, 6)", language: .swift),
-                .languageTest(name: "testArray", code: "let arr = [0, 1, 2]\narr.enumerated().forEach{\n    XCTAssertEqual($0.0, $0.1)\n}", language: .swift)
+                .languageTest(name: "test_checkX", code: "XCTAssertEqual(x, 5)", language: .swift),
+                .languageTest(name: "test_checkY", code: "XCTAssertEqual(y, 6)", language: .swift),
+                .languageTest(name: "test_array", code: "let arr = [0, 1, 2]\narr.enumerated().forEach{\n    XCTAssertEqual($0.0, $0.1)\n}", language: .swift)
             ],
             variables: [
                 .languageVariable(declaration: "var x: Int?", language: .swift),

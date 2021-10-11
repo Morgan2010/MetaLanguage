@@ -22,13 +22,13 @@ final class TestTests: XCTestCase {
     
     func testCreatesValidTest() {
         let test = Test(rawValue: testData!)
-        let expected: Test = .languageTest(name: "testTrueTest", code: "XCTAssertTrue(true)", language: .swift)
+        let expected: Test = .languageTest(name: "test_trueTest", code: "XCTAssertTrue(true)", language: .swift)
         XCTAssertNotNil(test)
         TestTests.compareTest(uut: test, expected: expected)
     }
     
     func testCreateValidNestedTest() {
-        let expected: Test = .languageTest(name: "testNestedTest", code: "[0, 1, 2].enumerated.forEach {\n    XCTAssertEqual($0.0, $0.1)\n    }", language: .swift)
+        let expected: Test = .languageTest(name: "test_nestedTest", code: "[0, 1, 2].enumerated.forEach {\n    XCTAssertEqual($0.0, $0.1)\n    }", language: .swift)
         let test = Test(rawValue: nestedTest!)
         XCTAssertNotNil(test)
         TestTests.compareTest(uut: test, expected: expected)

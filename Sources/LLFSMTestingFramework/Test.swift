@@ -28,11 +28,8 @@ public enum Test {
             }
             if let language = Language(rawValue: components[0]) {
                 var name = components[2]
-                guard let firstChar = name.first else {
-                    return nil
-                }
-                if !name.starts(with: "test") {
-                    name = "test" + firstChar.uppercased() + name.dropFirst()
+                if !name.starts(with: "test_") {
+                    name = "test_" + name
                 }
                 let mutator = StringMutator()
                 let sanitisedCode = mutator.removeRedundentIndentation(data: String(code.value).trimmingCharacters(in: .newlines))
