@@ -21,4 +21,4 @@ public enum Language {
     
 }
 
-extension Language: Codable {}
+extension Language: Codable, Equatable, Hashable {}

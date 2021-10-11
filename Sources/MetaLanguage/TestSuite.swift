@@ -148,4 +148,4 @@ public struct TestSuite {
     
 }
 
-extension TestSuite: Codable {}
+extension TestSuite: Codable, Equatable, Hashable {}

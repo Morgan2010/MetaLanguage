@@ -25,4 +25,4 @@ public enum Code {
     
 }
 
-extension Code: Codable {}
+extension Code: Codable, Equatable, Hashable {}

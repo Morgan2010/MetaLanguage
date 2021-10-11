@@ -42,4 +42,4 @@ public enum Test {
     
 }
 
-extension Test: Codable {}
+extension Test: Codable, Equatable, Hashable {}

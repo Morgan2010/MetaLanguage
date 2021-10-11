@@ -38,4 +38,4 @@ public enum Variable {
     
 }
 
-extension Variable: Codable {}
+extension Variable: Codable, Equatable, Hashable {}
