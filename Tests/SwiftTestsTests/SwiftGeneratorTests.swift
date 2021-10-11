@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-import LLFSMTestingFramework
+import MetaLanguage
 @testable import SwiftTests
 
 final class SwiftGeneratorTests: XCTestCase {

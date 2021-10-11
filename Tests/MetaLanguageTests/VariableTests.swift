@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-@testable import LLFSMTestingFramework
+@testable import MetaLanguage 
 
 final class VariableTests: XCTestCase {
     

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import LLFSMTestingFramework
+import MetaLanguage
 import SwiftParsing
 
 struct SwiftGenerator {
