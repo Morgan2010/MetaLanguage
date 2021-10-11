@@ -9,9 +9,13 @@ import Foundation
 import MetaLanguage
 import SwiftParsing
 
-struct SwiftGenerator {
+public struct SwiftGenerator {
     
-    let mutator: StringMutator = StringMutator()
+    let mutator: StringMutator
+    
+    public init(mutator: StringMutator = StringMutator()) {
+        self.mutator = mutator
+    }
     
     public func generateWrapper(suite: TestSuite) -> FileWrapper? {
         guard
