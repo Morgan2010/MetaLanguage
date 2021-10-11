@@ -9,7 +9,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "MetaLanguage",
-            targets: ["MetaLanguage", "SwiftTests"]),
+            targets: ["MetaLanguage"]
+        ),
+        .library(
+            name: "SwiftTests",
+            targets: ["SwiftTests"]
+        )
     ],
     dependencies: [
         .package(name: "SwiftParsing", url: "https://github.com/Morgan2010/SwiftParsing.git", .branch("main"))
