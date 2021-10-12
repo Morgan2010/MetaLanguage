@@ -39,7 +39,7 @@ final class SwiftGeneratorTests: XCTestCase {
     }
     
     func testCodeGeneration() {
-        let result = generator?.generate(suite: suite!)
+        let result = suite!.swiftRepresentation
         XCTAssertNotNil(result)
         print(result!)
     }

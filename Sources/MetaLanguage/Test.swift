@@ -28,7 +28,7 @@ public enum Test {
             }
             if let language = Language(rawValue: components[0]) {
                 var name = components[2]
-                if !name.starts(with: "test_") {
+                if !name.starts(with: "test") {
                     name = "test_" + name
                 }
                 let mutator = StringMutator()
