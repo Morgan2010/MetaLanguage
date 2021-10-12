@@ -17,7 +17,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(name: "SwiftParsing", url: "https://github.com/Morgan2010/SwiftParsing.git", .branch("main"))
+        .package(name: "SwiftParsing", url: "ssh://git@github.com/Morgan2010/SwiftParsing.git", .branch("main"))
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
