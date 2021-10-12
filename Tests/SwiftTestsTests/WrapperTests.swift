@@ -10,13 +10,11 @@ import XCTest
 import MetaLanguage
 @testable import SwiftTests
 
-final class SwiftGeneratorTests: XCTestCase {
+final class WrapperTests: XCTestCase {
     
-    var suite: TestSuite?
+    var suite: TestSuite!
     
-    var generator: SwiftGenerator?
-    
-    var expected: String?
+    var expected: String!
     
     private let packageRootPath = URL(fileURLWithPath: #file).pathComponents.prefix(while: { $0 != "Tests" }).joined(separator: "/").dropFirst()
     
@@ -35,11 +33,10 @@ final class SwiftGeneratorTests: XCTestCase {
             setup: .languageCode(code: "x = 5\ny = 6", language: .swift),
             tearDown: .languageCode(code: "print(\"Tear Down!\")", language: .swift)
         )
-        generator = SwiftGenerator()
     }
     
     func testCodeGeneration() {
-        let result = suite!.swiftRepresentation
+        let result = suite.swiftRepresentation
         XCTAssertNotNil(result)
         print(result!)
     }
@@ -48,7 +45,7 @@ final class SwiftGeneratorTests: XCTestCase {
         guard
             let data = try? String(contentsOf: URL(fileURLWithPath: packageRootPath + "/Tests/SwiftTestsTests/examples/ExampleTest")),
             let suite = TestSuite(rawValue: data),
-            let wrapper = generator?.generateWrapper(suite: suite),
+            let wrapper = suite.wrapper,
             let _ = try? wrapper.write(to: URL(fileURLWithPath: packageRootPath + "/Tests/SwiftTestsTests/examples/ExampleTest.swift"), options: .atomic, originalContentsURL: nil)
         else {
             XCTAssertTrue(false)

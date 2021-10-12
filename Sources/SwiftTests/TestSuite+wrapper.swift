@@ -9,19 +9,17 @@ import Foundation
 import MetaLanguage
 import SwiftParsing
 
-public struct SwiftGenerator {
+public extension TestSuite {
     
-    public init() {}
-    
-    public func generateWrapper(suite: TestSuite) -> FileWrapper? {
+    var wrapper: FileWrapper? {
         guard
-            let tests = suite.swiftRepresentation,
+            let tests = self.swiftRepresentation,
             let data = tests.data(using: .utf8)
         else {
             return nil
         }
         let wrapper = FileWrapper(regularFileWithContents: data)
-        wrapper.preferredFilename = "\(suite.name).swift"
+        wrapper.preferredFilename = "\(self.name).swift"
         return wrapper
     }
     
