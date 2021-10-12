@@ -24,12 +24,11 @@ public extension Code {
     }
     
     var swiftSetupRepresentation: String? {
-        let mutator = StringMutator()
         switch self {
         case .languageCode(let code, let language):
             switch language {
             case .swift:
-                return "override func setUp() " + mutator.createBlock(for: code)
+                return "override func setUp() " + code.createBlock
             default:
                 return nil
             }
@@ -39,12 +38,11 @@ public extension Code {
     }
     
     var swiftTearDownRepresentation: String? {
-        let mutator = StringMutator()
         switch self {
         case .languageCode(let code, let language):
             switch language {
             case .swift:
-                return "override func tearDown() " + mutator.createBlock(for: code)
+                return "override func tearDown() " + code.createBlock
             default:
                 return nil
             }

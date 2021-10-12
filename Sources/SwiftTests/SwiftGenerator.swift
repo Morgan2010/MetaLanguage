@@ -11,11 +11,7 @@ import SwiftParsing
 
 public struct SwiftGenerator {
     
-    let mutator: StringMutator
-    
-    public init(mutator: StringMutator = StringMutator()) {
-        self.mutator = mutator
-    }
+    public init() {}
     
     public func generateWrapper(suite: TestSuite) -> FileWrapper? {
         guard

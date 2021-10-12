@@ -13,11 +13,10 @@ public enum Test {
     case languageTest(name: String, code: String, language: Language)
     
     public init?(rawValue: String) {
-        let selector = StringSelector()
         guard
-            let metaData = selector.findSubString(with: "@", and: "{", in: rawValue),
+            let metaData = rawValue.findSubString(with: "@", and: "{"),
             let codeFirstIndex = metaData.lastIndex,
-            let code = selector.findSubString(between: "{", and: "}", in: String(rawValue[codeFirstIndex..<rawValue.countIndex]))
+            let code = String(rawValue[codeFirstIndex..<rawValue.countIndex]).findSubString(between: "{", and: "}")
         else {
             return nil
         }
@@ -31,8 +30,7 @@ public enum Test {
                 if !name.starts(with: "test") {
                     name = "test_" + name
                 }
-                let mutator = StringMutator()
-                let sanitisedCode = mutator.removeRedundentIndentation(data: String(code.value).trimmingCharacters(in: .newlines))
+                let sanitisedCode = String(code.value).trimmingCharacters(in: .newlines).removeRedundentIndentation
                 self = .languageTest(name: name, code: sanitisedCode, language: language)
                 return
             }

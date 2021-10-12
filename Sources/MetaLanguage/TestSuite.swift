@@ -29,8 +29,7 @@ public struct TestSuite {
     }
     
     public init?(rawValue: String) {
-        let selector = StringSelector()
-        guard let subString = selector.findIndexes(for: "TestSuite", in: rawValue) else {
+        guard let subString = rawValue.findIndexes(for: "TestSuite") else {
             return nil
         }
         let firstCandidate = subString.endIndex
@@ -42,7 +41,7 @@ public struct TestSuite {
         let components = rawValue[firstCandidate..<lastIndex].trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines)
         guard
             components.count == 1,
-            let testsRaw = selector.findSubString(between: "{", and: "}", in: desirables),
+            let testsRaw = desirables.findSubString(between: "{", and: "}"),
             let desirableOffset = testsRaw.lastIndex?.utf16Offset(in: desirables)
         else {
             return nil
@@ -54,13 +53,12 @@ public struct TestSuite {
         var setup: Code? = nil
         var tearDown: Code? = nil
         var variables: [Variable] = []
-        let mutator = StringMutator()
         while currentIndex < testsLastIndex {
-            let groupMetaData = selector.findSubString(after: currentIndex, with: ["@"], and: ["{", "@", "}"], in: rawValue)
+            let groupMetaData = rawValue.findSubString(after: currentIndex, with: ["@"], and: ["{", "@", "}"])
             guard
                 let metaData = groupMetaData?.value.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines),
                 let codeFirstIndex = groupMetaData?.lastIndex,
-                let code = selector.findSubString(after: codeFirstIndex, with: "{", and: "}", in: rawValue),
+                let code = rawValue.findSubString(after: codeFirstIndex, with: "{", and: "}"),
                 let searchedLastIndex = code.lastIndex,
                 let codeLastIndex = code.endIndex.increment(in: rawValue),
                 let groupMetaData = groupMetaData,
@@ -72,7 +70,7 @@ public struct TestSuite {
                 continue
             }
             if (metaData.count > 2 && metaData[1] == "variable") || metaData[0] == "variable" {
-                guard let nextKeyword = selector.findSubString(after: codeFirstIndex, with: ["@"], and: ["{", "@"], in: rawValue) else {
+                guard let nextKeyword = rawValue.findSubString(after: codeFirstIndex, with: ["@"], and: ["{", "@"]) else {
                     if let variable = Variable(rawValue: String(groupMetaData.value)) {
                         variables.append(variable)
                     }
@@ -87,7 +85,7 @@ public struct TestSuite {
                     continue
                 }
                 if let variable = Variable(rawValue: String(groupMetaData.value)
-                   + mutator.createBlock(for: mutator.removeRedundentIndentation(data: String(code.value).trimmingCharacters(in: .newlines))))
+                   + String(code.value).trimmingCharacters(in: .newlines).removeRedundentIndentation.createBlock)
                 {
                     variables.append(variable)
                 }

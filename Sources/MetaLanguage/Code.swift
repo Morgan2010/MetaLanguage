@@ -13,8 +13,7 @@ public enum Code {
     case languageCode(code: String, language: Language)
     
     public init(code: String, language: Language) {
-        let mutator = StringMutator()
-        let sanitisedCode = mutator.removeRedundentIndentation(data: code.trimmingCharacters(in: .newlines))
+        let sanitisedCode = code.trimmingCharacters(in: .newlines).removeRedundentIndentation
         self = .languageCode(code: sanitisedCode, language: language)
     }
     

@@ -12,12 +12,11 @@ import SwiftParsing
 public extension Test {
     
     var swiftRepresentation: String? {
-        let mutator = StringMutator()
         switch self {
         case .languageTest(let name, let code, let language):
             switch language {
             case .swift:
-                return "func \(name)() " + mutator.createBlock(for: code)
+                return "func \(name)() " + code.createBlock
             default:
                 return nil
             }
