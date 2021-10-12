@@ -14,6 +14,9 @@ public enum Variable {
     
     public init?(rawValue: String) {
         let metaData = rawValue.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines)
+        guard metaData.count >= 2 else {
+            return nil
+        }
         if metaData[1] == "variable" {
             let selector = StringSelector()
             guard
