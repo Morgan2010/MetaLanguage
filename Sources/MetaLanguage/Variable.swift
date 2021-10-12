@@ -8,10 +8,12 @@
 import Foundation
 import SwiftParsing
 
+/// An enum representing an abstract variable in any language
 public enum Variable {
     
     case languageVariable(declaration: String, language: Language)
     
+    /// Tries to parse a raw string to determine a variable and it's language
     public init?(rawValue: String) {
         let metaData = rawValue.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .whitespacesAndNewlines)
         guard metaData.count >= 2 else {

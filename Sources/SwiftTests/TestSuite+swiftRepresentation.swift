@@ -11,6 +11,7 @@ import SwiftParsing
 
 public extension TestSuite {
     
+    /// Converts this TestSuite into an XCTest representation using swift code.
     var swiftRepresentation: String? {
         let variables = variables?.compactMap(\.swiftRepresentation) ?? []
         let setup = nil == setup ? "" : (setup!.swiftSetupRepresentation ?? "")

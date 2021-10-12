@@ -8,18 +8,32 @@
 import Foundation
 import SwiftParsing
 
+/// A struct representing an abstract notion of a TestSuite. A TestSuite is an object containing many tests, a setup function,
+/// a teardown function, and some variables.
 public struct TestSuite {
     
+    /// The name of the Test Suite
     public var name: String
     
+    /// The variables in the Test Suite
     public var variables: [Variable]?
     
+    /// The setup code for the TestSuite. This should run before every Test.
     public var setup: Code?
     
+    /// The teardown code that will run after every Test.
     public var tearDown: Code?
     
+    /// The tests in this Test Suite
     public var tests: [Test]
     
+    /// Create a TestSuite from previously parsed data.
+    /// - Parameters:
+    ///   - name: The name of the TestSuite
+    ///   - tests: The tests in the TestSuite
+    ///   - variables: The variables in the TestSuite
+    ///   - setup: The setup code within the setup function
+    ///   - tearDown: The teardown code within the teardown function
     public init(name: String, tests: [Test], variables: [Variable]? = nil, setup: Code? = nil, tearDown: Code? = nil) {
         self.name = name
         self.tests = tests
@@ -28,6 +42,7 @@ public struct TestSuite {
         self.tearDown = tearDown
     }
     
+    /// Create a TestSuite from a raw string.
     public init?(rawValue: String) {
         guard let subString = rawValue.findIndexes(for: "TestSuite") else {
             return nil

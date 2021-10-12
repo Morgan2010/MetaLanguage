@@ -10,6 +10,7 @@ import MetaLanguage
 
 public extension Variable {
     
+    /// Converts into a swift variable
     var swiftRepresentation: String? {
         switch self {
         case .languageVariable(let declaration, let language):

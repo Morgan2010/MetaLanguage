@@ -7,10 +7,12 @@
 
 import Foundation
 
+/// An enum representing the current supported languages by this framework
 public enum Language {
     
     case swift
     
+    /// Convert a raw string into a language. Returns nil if the string is not supported.
     public init?(rawValue: String) {
         if rawValue == "swift" {
             self = .swift

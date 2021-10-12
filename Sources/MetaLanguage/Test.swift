@@ -8,10 +8,12 @@
 import Foundation
 import SwiftParsing
 
+/// An enum to represent Test Cases in different languages
 public enum Test {
     
     case languageTest(name: String, code: String, language: Language)
     
+    /// Parses a raw string into a generic Test enum
     public init?(rawValue: String) {
         guard
             let metaData = rawValue.findSubString(with: "@", and: "{"),
@@ -26,10 +28,7 @@ public enum Test {
                 return nil
             }
             if let language = Language(rawValue: components[0]) {
-                var name = components[2]
-                if !name.starts(with: "test") {
-                    name = "test_" + name
-                }
+                let name = components[2]
                 let sanitisedCode = String(code.value).trimmingCharacters(in: .newlines).removeRedundentIndentation
                 self = .languageTest(name: name, code: sanitisedCode, language: language)
                 return

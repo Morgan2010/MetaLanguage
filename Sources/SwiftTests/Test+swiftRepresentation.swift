@@ -11,12 +11,17 @@ import SwiftParsing
 
 public extension Test {
     
+    /// Converts this into an XCTest case using swift code
     var swiftRepresentation: String? {
         switch self {
         case .languageTest(let name, let code, let language):
             switch language {
             case .swift:
-                return "func \(name)() " + code.createBlock
+                var newName = name
+                if !name.starts(with: "test") {
+                    newName = "test_" + name
+                }
+                return "func \(newName)() " + code.createBlock
             default:
                 return nil
             }

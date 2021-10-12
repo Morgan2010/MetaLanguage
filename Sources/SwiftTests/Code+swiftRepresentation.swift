@@ -11,6 +11,7 @@ import SwiftParsing
 
 public extension Code {
     
+    /// Converts this code to generic swift code
     var swiftRepresentation: String? {
         switch self {
         case .languageCode(let code, let language):
@@ -23,6 +24,7 @@ public extension Code {
         }
     }
     
+    /// Converts this code into a setup function used in XCTest classes
     var swiftSetupRepresentation: String? {
         switch self {
         case .languageCode(let code, let language):
@@ -37,6 +39,7 @@ public extension Code {
         }
     }
     
+    /// Converts this code into a tearDown function used in XCTest calsses
     var swiftTearDownRepresentation: String? {
         switch self {
         case .languageCode(let code, let language):
