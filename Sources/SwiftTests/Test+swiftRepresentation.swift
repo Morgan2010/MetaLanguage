@@ -9,7 +9,7 @@ import Foundation
 import MetaLanguage
 import SwiftParsing
 
-extension Test {
+public extension Test {
     
     var swiftRepresentation: String? {
         let mutator = StringMutator()

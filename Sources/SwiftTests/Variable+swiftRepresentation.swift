@@ -8,7 +8,7 @@
 import Foundation
 import MetaLanguage
 
-extension Variable {
+public extension Variable {
     
     var swiftRepresentation: String? {
         switch self {

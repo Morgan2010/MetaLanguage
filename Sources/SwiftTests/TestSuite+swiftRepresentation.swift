@@ -9,7 +9,7 @@ import Foundation
 import MetaLanguage
 import SwiftParsing
 
-extension TestSuite {
+public extension TestSuite {
     
     var swiftRepresentation: String? {
         let mutator = StringMutator()

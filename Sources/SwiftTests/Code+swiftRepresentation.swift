@@ -9,7 +9,7 @@ import Foundation
 import MetaLanguage
 import SwiftParsing
 
-extension Code {
+public extension Code {
     
     var swiftRepresentation: String? {
         switch self {
