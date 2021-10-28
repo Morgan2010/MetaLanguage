@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Reconfigure Package Repo URLs
-        run: sed -i 's/git@github.com:/https:\/\/${{ secrets.ACCESS_TOKEN }}@github.com\//g' ./Package.swift
+        run: sed -i '' 's/git@github.com:/https:\/\/${{ secrets.ACCESS_TOKEN }}@github.com\//g' Package.swift
 
       - name: Run tests
         run: swift test --enable-code-coverage
