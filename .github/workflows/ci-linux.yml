@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Reconfigure Private Repo URLs
-        run: git config --global --add url."https://${{ secrets.ACCESS_TOKEN }}@github.com/Morgan2010".insteadOf "https://github.com/Morgan2010"
+        run: sed -i 's/git@github.com:/https:\/\/${{ secrets.ACCESS_TOKEN }}@github.com\//g' Package.swift
 
       - name: Run tests
         run: swift test --enable-code-coverage
