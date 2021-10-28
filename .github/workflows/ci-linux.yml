@@ -1,4 +1,4 @@
-name: Swift Linux CI
+name: Ubuntu 20.04 CI
 
 on:
   push:
