@@ -8,6 +8,9 @@
 import Foundation
 import MetaLanguage
 import SwiftParsing
+#if os(Linux) && canImport(Foundation) && !NO_FOUNDATION
+import IO
+#endif
 
 public extension TestSuite {
     
