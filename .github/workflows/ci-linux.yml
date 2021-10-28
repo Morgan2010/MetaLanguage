@@ -1,4 +1,4 @@
-name: Swift CI
+name: Swift Linux CI
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
 
   exec-ci:
-    runs-on: macos-11
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout repo
