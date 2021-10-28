@@ -28,7 +28,10 @@ public enum Test {
                 return nil
             }
             if let language = Language(rawValue: components[0]) {
-                let name = components[2]
+                var name = components[2]
+                if !name.starts(with: "test") {
+                    name = "test_" + name
+                }
                 let sanitisedCode = String(code.value).trimmingCharacters(in: .newlines).removeRedundentIndentation
                 self = .languageTest(name: name, code: sanitisedCode, language: language)
                 return
