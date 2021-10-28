@@ -41,4 +41,41 @@ public enum Variable {
     
 }
 
-extension Variable: Codable, Equatable, Hashable {}
+extension Variable: Equatable, Hashable {}
+
+extension Variable: Codable {
+
+    enum CodingKeys: CodingKey {
+        case languageVariable
+    }
+
+    struct VariableContainer: Codable {
+
+        let declaration: String
+
+        let language: Language
+
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard let key = container.allKeys.first else {
+            fatalError("Failed to retrieve key.")
+        }
+        switch key {
+        case .languageVariable:
+            let variableContainer = try container.decode(VariableContainer.self, forKey: .languageVariable)
+            self = .languageVariable(declaration: variableContainer.declaration, language: variableContainer.language)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .languageVariable(let declaration, let language):
+            try container.encode(VariableContainer(declaration: declaration, language: language), forKey: .languageVariable)
+        }
+    }
+
+}
+
