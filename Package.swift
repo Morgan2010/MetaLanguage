@@ -17,7 +17,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(name: "SwiftParsing", url: "ssh://git@github.com/Morgan2010/SwiftParsing.git", .branch("main"))
+        .package(name: "SwiftParsing", url: "ssh://git@github.com/Morgan2010/SwiftParsing.git", .branch("main")),
+        .package(name: "swift_helpers", url: "https://github.com/mipalgu/swift_helpers.git", .branch("main"))
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -30,7 +31,7 @@ let package = Package(
             dependencies: ["SwiftParsing" ]),
         .target(
             name: "SwiftTests",
-            dependencies: ["SwiftParsing", .target(name: "MetaLanguage")]),
+            dependencies: ["SwiftParsing", .target(name: "MetaLanguage"), "swift_helpers", .product(name: "IO", package: "swift_helpers")]),
         .testTarget(
             name: "MetaLanguageTests",
             dependencies: ["MetaLanguage"]
