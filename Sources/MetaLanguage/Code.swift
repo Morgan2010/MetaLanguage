@@ -30,4 +30,43 @@ public enum Code {
     
 }
 
-extension Code: Codable, Equatable, Hashable {}
+extension Code: Equatable, Hashable {}
+
+extension Code: Codable {
+
+    enum CodingKeys: CodingKey {
+        case languageCode
+    }
+
+    struct CodeContainer: Codable {
+
+        let code: String
+
+        let language: Language
+
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard let key = container.allKeys.first else {
+            fatalError("Failed to retrieve key")
+        }
+        switch key {
+        case .languageCode:
+            let codeContainer = try container.decode(CodeContainer.self, forKey: .languageCode)
+            self = .languageCode(code: codeContainer.code, language: codeContainer.language)
+        default:
+            fatalError("Data corruption")
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .languageCode(let code, let language):
+            try container.encode(CodeContainer(code: code, language: language), forKey: .languageCode)
+        }
+    }
+
+}
+
