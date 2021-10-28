@@ -8,7 +8,7 @@
 import Foundation
 
 /// An enum representing the current supported languages by this framework
-public enum Language {
+public enum Language: String {
     
     case swift
     
@@ -24,3 +24,4 @@ public enum Language {
 }
 
 extension Language: Codable, Equatable, Hashable {}
+
