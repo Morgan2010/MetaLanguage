@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-import MetaLanguage
+@testable import MetaLanguage
 @testable import SwiftTests
 
 final class WrapperTests: XCTestCase {
@@ -52,6 +52,31 @@ final class WrapperTests: XCTestCase {
             return
         }
         XCTAssertTrue(true)
+    }
+    
+    func testJSONFile() {
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        guard let suiteData = try? encoder.encode(suite) else {
+            XCTAssertTrue(false)
+            return
+        }
+        let wrapper = FileWrapper(regularFileWithContents: suiteData)
+        let url = URL( fileURLWithPath: packageRootPath + "/Tests/SwiftTestsTests/examples/ExampleTest.json"
+        )
+        guard
+            let _ = try? wrapper.write(
+                to: url,
+                options: .atomic,
+                originalContentsURL: nil
+            ),
+            let contents = try? Data(contentsOf: url),
+            let newSuite = try? decoder.decode(TestSuite.self, from: contents)
+        else {
+            XCTAssertTrue(false)
+            return
+        }
+        XCTAssertEqual(suite, newSuite)
     }
     
 }

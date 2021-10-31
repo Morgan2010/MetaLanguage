@@ -11,17 +11,11 @@ import XCTest
 
 final class TestSuiteTests: XCTestCase {
     
-    var rawData: String?
+    var rawData: String!
+    var expected: TestSuite!
     
     override func setUp() {
-        rawData = "TestSuite ExampleTests {\n    @swift variable var x: Int?\n\n    @swift setup {\n    print(\"Hello World!\")"
-            + "\n}\n\n    @swift teardown {\n        print(\"Tear Down!\")\n    }\n\n    "
-            + "@swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
-            + "    @swift test falseTest {\n        XCTAssertTrue(false)\n    }\n}"
-    }
-    
-    func testIsValid() {
-        let expected = TestSuite(
+        expected = TestSuite(
             name: "ExampleTests",
             tests: [
                 .languageTest(name: "test_trueTest", code: "XCTAssertTrue(true)", language: .swift),
@@ -31,12 +25,45 @@ final class TestSuiteTests: XCTestCase {
             setup: .languageCode(code: "print(\"Hello World!\")", language: .swift),
             tearDown: .languageCode(code: "print(\"Tear Down!\")", language: .swift)
         )
-        let suite = TestSuite(rawValue: rawData!)
+        rawData = "TestSuite ExampleTests {\n    @swift variable var x: Int?\n\n    @swift setup {\n    print(\"Hello World!\")"
+            + "\n}\n\n    @swift teardown {\n        print(\"Tear Down!\")\n    }\n\n    "
+            + "@swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
+            + "    @swift test falseTest {\n        XCTAssertTrue(false)\n    }\n}"
+    }
+    
+    func testIsValid() {
+        let suite = TestSuite(rawValue: rawData)
         XCTAssertNotNil(suite)
         compareTestSuite(uut: suite, expected: expected)
     }
     
+    func testJSONEncoding() {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        guard
+            let data = try? encoder.encode(expected),
+            let jsonString = String(data: data, encoding: .utf8)
+        else {
+            XCTAssertTrue(false)
+            return
+        }
+        print(jsonString)
+        let decoder = JSONDecoder()
+        guard
+            let jsonData = jsonString.data(using: .utf8),
+            let newSuite = try? decoder.decode(TestSuite.self, from: jsonData)
+        else {
+            XCTAssertTrue(false)
+            return
+        }
+        XCTAssertEqual(expected, newSuite)
+    }
+    
     private func compareTestSuite(uut: TestSuite?, expected: TestSuite) {
+        guard uut != nil else {
+            XCTAssertNotNil(uut)
+            return
+        }
         XCTAssertEqual(uut?.name, expected.name)
         XCTAssertEqual(uut?.tests.count, expected.tests.count)
         uut?.tests.indices.forEach {
