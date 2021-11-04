@@ -9,7 +9,7 @@ import Foundation
 import SwiftParsing
 
 /// An enum to represent Test Cases in different languages
-public enum Test {
+public enum Test: CustomStringConvertible {
     
     case languageTest(name: String, code: String, language: Language)
     
@@ -38,6 +38,13 @@ public enum Test {
             }
         }
         return nil
+    }
+
+    public var description: String {
+        switch self {
+        case .languageTest(let name, let code, let language):
+            return "@\(language.description) test \(name) " + code.createBlock
+        }
     }
     
 }

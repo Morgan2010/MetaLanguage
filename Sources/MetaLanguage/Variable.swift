@@ -9,7 +9,7 @@ import Foundation
 import SwiftParsing
 
 /// An enum representing an abstract variable in any language
-public enum Variable {
+public enum Variable: CustomStringConvertible {
     
     case languageVariable(declaration: String, language: Language)
     
@@ -37,6 +37,13 @@ public enum Variable {
             return
         }
         return nil
+    }
+
+    public var description: String {
+        switch self {
+        case .languageVariable(let declaration, let language):
+            return "@\(language.description) variable \(declaration)"
+        }
     }
     
 }

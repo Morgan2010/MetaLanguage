@@ -21,5 +21,10 @@ final class LanguageTests: XCTestCase {
             XCTAssertTrue(false)
         }
     }
+
+    func testDescription() {
+        let language = Language(rawValue: "swift")!
+        XCTAssertEqual(language.description, "swift")
+    }
     
 }

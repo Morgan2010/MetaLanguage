@@ -8,7 +8,7 @@
 import Foundation
 
 /// An enum representing the current supported languages by this framework
-public enum Language: String {
+public enum Language: String, CustomStringConvertible {
     
     case swift
     
@@ -19,6 +19,13 @@ public enum Language: String {
             return
         }
         return nil
+    }
+
+    public var description: String {
+        switch self {
+        case .swift:
+            return "swift"
+        }
     }
     
 }

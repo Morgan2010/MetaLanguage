@@ -11,14 +11,14 @@ import XCTest
 
 final class VariableTests: XCTestCase {
     
-    var data: String?
+    var data: String!
     
     override func setUp() {
-        data = "swift variable var x: Int?"
+        data = "@swift variable var x: Int?"
     }
     
     func testInit() {
-        let result = Variable(rawValue: data!)
+        let result = Variable(rawValue: data)
         compareVariables(uut: result, expected: .languageVariable(declaration: "var x: Int?", language: .swift))
         
     }
@@ -28,6 +28,11 @@ final class VariableTests: XCTestCase {
         let result = Variable(rawValue: raw)
         let expected: Variable = .languageVariable(declaration: "var x: Int {\n    return 5\n}", language: .swift)
         compareVariables(uut: result, expected: expected)
+    }
+
+    func testDesciption() {
+        let variable = Variable(rawValue: data)!
+        XCTAssertEqual(variable.description, data)
     }
     
     private func compareVariables(uut: Variable?, expected: Variable) {

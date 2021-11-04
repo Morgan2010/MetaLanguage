@@ -33,6 +33,13 @@ final class TestTests: XCTestCase {
         XCTAssertNotNil(test)
         TestTests.compareTest(uut: test, expected: expected)
     }
+
+    func testDescription() {
+        let expected = "@swift test test_trueTest " + "XCTAssertTrue(true)".createBlock
+        let test = Test(rawValue: testData!)
+        XCTAssertNotNil(test)
+        XCTAssertEqual(test!.description, expected)
+    }
     
     static func compareTest(uut: Test?, expected: Test) {
         if uut == nil {

@@ -25,10 +25,10 @@ final class TestSuiteTests: XCTestCase {
             setup: .languageCode(code: "print(\"Hello World!\")", language: .swift),
             tearDown: .languageCode(code: "print(\"Tear Down!\")", language: .swift)
         )
-        rawData = "TestSuite ExampleTests {\n    @swift variable var x: Int?\n\n    @swift setup {\n    print(\"Hello World!\")"
-            + "\n}\n\n    @swift teardown {\n        print(\"Tear Down!\")\n    }\n\n    "
-            + "@swift test trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
-            + "    @swift test falseTest {\n        XCTAssertTrue(false)\n    }\n}"
+        rawData = "TestSuite ExampleTests {\n    @swift variable var x: Int?\n\n    @swift setup {\n        print(\"Hello World!\")"
+            + "\n    }\n\n    @swift teardown {\n        print(\"Tear Down!\")\n    }\n\n    "
+            + "@swift test test_trueTest {\n        XCTAssertTrue(true)\n    }\n\n"
+            + "    @swift test test_falseTest {\n        XCTAssertTrue(false)\n    }\n}"
     }
     
     func testIsValid() {
@@ -57,6 +57,19 @@ final class TestSuiteTests: XCTestCase {
             return
         }
         XCTAssertEqual(expected, newSuite)
+    }
+
+    func testDescription() {
+        testLines(str1: expected.description, str2: rawData.description)
+    }
+
+    private func testLines(str1: String, str2: String) {
+        let str1Lines = str1.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        let str2Lines = str2.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        XCTAssertEqual(str1Lines.count, str2Lines.count)
+        for i in str1Lines.indices {
+            XCTAssertEqual(str1Lines[i], str2Lines[i])
+        }
     }
     
     private func compareTestSuite(uut: TestSuite?, expected: TestSuite) {

@@ -9,7 +9,7 @@ import Foundation
 import SwiftParsing
 
 /// An enum representing arbitrary code without context.
-public enum Code {
+public enum Code: CustomStringConvertible {
     
     case languageCode(code: String, language: Language)
     
@@ -26,6 +26,13 @@ public enum Code {
     public init?(rawValue: String) {
         //Used for meta language
         return nil
+    }
+
+    public var description: String {
+        switch self {
+        case .languageCode(let code, let language):
+            return code
+        }
     }
     
 }

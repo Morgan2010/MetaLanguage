@@ -10,7 +10,7 @@ import SwiftParsing
 
 /// A struct representing an abstract notion of a TestSuite. A TestSuite is an object containing many tests, a setup function,
 /// a teardown function, and some variables.
-public struct TestSuite {
+public struct TestSuite: CustomStringConvertible {
     
     /// The name of the Test Suite
     public var name: String
@@ -157,6 +157,35 @@ public struct TestSuite {
         self.setup = setup
         self.tearDown = tearDown
         self.variables = variables.isEmpty ? nil : variables
+    }
+
+    public var description: String {
+        let vars = variables == nil ? "" : variables!.map(\.description).joined(separator: "\n")
+        let testCode = tests.map(\.description).joined(separator: "\n\n")
+        return "TestSuite \(name) " + 
+            vars.joinWithNewLines(str2: setupCode, amount: 2)
+                .joinWithNewLines(str2: tearDownCode, amount: 2)
+                .joinWithNewLines(str2: testCode, amount: 2)
+                .createBlock()
+
+    }
+
+    private var setupCode: String {
+        prependCode(keyWord: "setup", code: setup)   
+    }
+
+    private var tearDownCode: String {
+        prependCode(keyWord: "teardown", code: tearDown)
+    }
+
+    private func prependCode(keyWord: String, code: Code?) -> String {
+        guard let code = code else {
+            return ""
+        }
+        switch code {
+        case .languageCode(_, let language):
+            return "@\(language.description) \(keyWord) " + code.description.createBlock
+        }
     }
     
 }
