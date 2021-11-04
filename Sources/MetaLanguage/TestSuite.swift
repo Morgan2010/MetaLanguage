@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(Linux) && canImport(Foundation) && !NO_FOUNDATION
+import IO
+#endif
 import SwiftParsing
 
 /// A struct representing an abstract notion of a TestSuite. A TestSuite is an object containing many tests, a setup function,
@@ -157,6 +160,17 @@ public struct TestSuite: CustomStringConvertible {
         self.setup = setup
         self.tearDown = tearDown
         self.variables = variables.isEmpty ? nil : variables
+    }
+
+    public init?(wrapper: FileWrapper) {
+        guard 
+            wrapper.isRegularFile,
+            let codeData = wrapper.regularFileContents,
+            let code = String(data: codeData, encoding: .utf16)
+        else {
+            return nil
+        }
+        self.init(rawValue: code)
     }
 
     public var description: String {

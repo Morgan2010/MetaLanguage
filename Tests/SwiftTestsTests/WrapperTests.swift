@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(Linux) && canImport(Foundation) && !NO_FOUNDATION
+import IO
+#endif
 import XCTest
 @testable import MetaLanguage
 @testable import SwiftTests

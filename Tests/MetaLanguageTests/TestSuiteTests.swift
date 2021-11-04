@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(Linux) && canImport(Foundation) && !NO_FOUNDATION
+import IO
+#endif
 import XCTest
 @testable import MetaLanguage 
 
@@ -61,6 +64,18 @@ final class TestSuiteTests: XCTestCase {
 
     func testDescription() {
         testLines(str1: expected.description, str2: rawData.description)
+    }
+
+    func testWrapperInit() {
+        let code = expected.description
+        guard let data = code.data(using: .utf16) else {
+            XCTAssertTrue(false)
+            return
+        }
+        let wrapper = FileWrapper(regularFileWithContents: data)
+        let newSuite = TestSuite(wrapper: wrapper)
+        XCTAssertNotNil(newSuite)
+        XCTAssertEqual(expected, newSuite)
     }
 
     private func testLines(str1: String, str2: String) {
