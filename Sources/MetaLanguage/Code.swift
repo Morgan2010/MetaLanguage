@@ -28,6 +28,7 @@ public enum Code: CustomStringConvertible {
         return nil
     }
 
+    /// The meta language representation of this Code.
     public var description: String {
         switch self {
         case .languageCode(let code, let language):
@@ -53,6 +54,7 @@ extension Code: Codable {
 
     }
 
+    /// Initialise the Code from a Decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = container.allKeys.first else {
@@ -67,6 +69,7 @@ extension Code: Codable {
         }
     }
 
+    /// Encode the contents of this code inside an Encoder
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {

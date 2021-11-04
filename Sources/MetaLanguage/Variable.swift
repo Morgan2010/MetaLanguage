@@ -39,6 +39,7 @@ public enum Variable: CustomStringConvertible {
         return nil
     }
 
+    /// A meta language representation of this variable
     public var description: String {
         switch self {
         case .languageVariable(let declaration, let language):
@@ -64,6 +65,7 @@ extension Variable: Codable {
 
     }
 
+    /// Initialise the Variable from a Decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = container.allKeys.first else {
@@ -76,6 +78,7 @@ extension Variable: Codable {
         }
     }
 
+    /// Encode the variable into an Encoder object.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {

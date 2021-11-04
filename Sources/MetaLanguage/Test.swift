@@ -40,6 +40,7 @@ public enum Test: CustomStringConvertible {
         return nil
     }
 
+    /// The meta language representation of this test
     public var description: String {
         switch self {
         case .languageTest(let name, let code, let language):
@@ -67,6 +68,7 @@ extension Test: Codable {
 
     }
 
+    /// Initialise the Test from a Decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = container.allKeys.first else {
@@ -83,6 +85,7 @@ extension Test: Codable {
         }
     }
 
+    /// Encode this Test into an Encoder object
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {

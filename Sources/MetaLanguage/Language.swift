@@ -21,6 +21,7 @@ public enum Language: String, CustomStringConvertible {
         return nil
     }
 
+    /// The meta language representation of this Language
     public var description: String {
         switch self {
         case .swift:

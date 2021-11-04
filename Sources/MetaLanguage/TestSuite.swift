@@ -162,6 +162,7 @@ public struct TestSuite: CustomStringConvertible {
         self.variables = variables.isEmpty ? nil : variables
     }
 
+    /// Reads the contents of a regular file wrapper and generates the TestSuite using the Meta Language syntax.
     public init?(wrapper: FileWrapper) {
         guard 
             wrapper.isRegularFile,
@@ -173,6 +174,7 @@ public struct TestSuite: CustomStringConvertible {
         self.init(rawValue: code)
     }
 
+    /// A meta language representation of this test suite
     public var description: String {
         let vars = variables == nil ? "" : variables!.map(\.description).joined(separator: "\n")
         let testCode = tests.map(\.description).joined(separator: "\n\n")
