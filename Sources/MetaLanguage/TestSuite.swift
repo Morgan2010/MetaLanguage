@@ -30,7 +30,7 @@ public struct TestSuite: CustomStringConvertible {
     /// The tests in this Test Suite
     public var tests: [Test]
     
-    var wrapper: FileWrapper? {
+    public var wrapper: FileWrapper? {
         guard let data = description.data(using: .utf8) else {
             return nil
         }
