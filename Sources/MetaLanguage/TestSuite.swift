@@ -35,7 +35,7 @@ public struct TestSuite: CustomStringConvertible {
             return nil
         }
         let wrapper = FileWrapper(regularFileWithContents: data)
-        wrapper.preferredFilename = "\(self.name).swift"
+        wrapper.preferredFilename = "\(self.name)"
         return wrapper
     }
     
