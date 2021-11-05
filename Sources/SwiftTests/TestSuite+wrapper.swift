@@ -15,7 +15,7 @@ import IO
 public extension TestSuite {
     
     /// Converts a TestSuite into a FileWrapper with swift code in it's contents
-    var wrapper: FileWrapper? {
+    var swiftWrapper: FileWrapper? {
         guard
             let tests = self.swiftRepresentation,
             let data = tests.data(using: .utf8)

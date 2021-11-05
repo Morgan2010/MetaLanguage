@@ -30,6 +30,15 @@ public struct TestSuite: CustomStringConvertible {
     /// The tests in this Test Suite
     public var tests: [Test]
     
+    var wrapper: FileWrapper? {
+        guard let data = description.data(using: .utf8) else {
+            return nil
+        }
+        let wrapper = FileWrapper(regularFileWithContents: data)
+        wrapper.preferredFilename = "\(self.name).swift"
+        return wrapper
+    }
+    
     /// Create a TestSuite from previously parsed data.
     /// - Parameters:
     ///   - name: The name of the TestSuite
