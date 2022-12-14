@@ -31,7 +31,7 @@ let package = Package(
             dependencies: ["SwiftParsing" ]),
         .target(
             name: "SwiftTests",
-            dependencies: ["SwiftParsing", .target(name: "MetaLanguage"), "swift_helpers", .product(name: "IO", package: "swift_helpers")]),
+            dependencies: ["SwiftParsing", .target(name: "MetaLanguage"), .product(name: "swift_helpers", package: "swift_helpers"), .product(name: "IO", package: "swift_helpers")]),
         .testTarget(
             name: "MetaLanguageTests",
             dependencies: ["MetaLanguage"]
