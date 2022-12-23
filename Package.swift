@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -17,8 +17,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(name: "SwiftParsing", url: "git@github.com:Morgan2010/SwiftParsing.git", .branch("main")),
-        .package(name: "swift_helpers", url: "https://github.com/mipalgu/swift_helpers.git", .branch("main"))
+        .package(url: "git@github.com:Morgan2010/SwiftParsing.git", branch: "main"),
+        .package(url: "https://github.com/mipalgu/swift_helpers.git", branch: "main")
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -28,7 +28,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "MetaLanguage",
-            dependencies: ["SwiftParsing" ]),
+            dependencies: ["SwiftParsing", .product(name: "IO", package: "swift_helpers")]),
         .target(
             name: "SwiftTests",
             dependencies: ["SwiftParsing", .target(name: "MetaLanguage"), .product(name: "swift_helpers", package: "swift_helpers"), .product(name: "IO", package: "swift_helpers")]),
