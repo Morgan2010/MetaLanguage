@@ -17,8 +17,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "git@github.com:Morgan2010/SwiftParsing.git", branch: "main"),
-        .package(url: "https://github.com/mipalgu/swift_helpers.git", branch: "main")
+        .package(url: "git@github.com:Morgan2010/SwiftParsing.git", from: "0.1.0"),
+        .package(url: "https://github.com/mipalgu/swift_helpers.git", from: "1.0.2")
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
